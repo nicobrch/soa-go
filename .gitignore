@@ -1,0 +1,17 @@
+# IDEs
+.idea/
+.vscode/
+
+# Environment
+.env
+env/
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
