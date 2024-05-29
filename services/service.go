@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"net"
+	"os"
 	"strings"
 )
 
@@ -19,6 +20,15 @@ func FormatSOATransaction(service string, data string) (string, error) {
 type SOAService struct {
 	Name string
 	Conn net.Conn
+}
+
+func NewService(name string, busAddr string) *SOAService {
+	conn, err := net.Dial("tcp", busAddr)
+	if err != nil {
+		fmt.Println("Error connecting to the server:", err)
+		os.Exit(1)
+	}
+	return &SOAService{Name: name, Conn: conn}
 }
 
 type DataProcessor func(data string) string
@@ -87,6 +97,11 @@ func (s *SOAService) ProcessData(processor DataProcessor) {
 			return
 		}
 	}
+}
+
+func GetDataFields(data string) []string {
+	fields := strings.Fields(data)
+	return fields
 }
 
 func ExampleDataProcessor(data string) string {
